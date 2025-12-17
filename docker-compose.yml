@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
+      - DOCKER_INFLUXDB_INIT_ORG=myorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=Evc6BO5o-jUvDafRtBejjp9V5gFalNLWB0G4UPp-0x956gyJq-Qlxvn0BomxBPA6iuBoCuFZBS8JBPSLo-MA8g==
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/etc/grafana
+    depends_on:
+      - influxdb
+    restart: always

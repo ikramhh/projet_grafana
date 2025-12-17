@@ -1,0 +1,14 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    database: mybucket
+    isDefault: true
+    jsonData:
+      version: 2
+      organization: myorg
+      defaultBucket: mybucket
+      token: Evc6BO5o-jUvDafRtBejjp9V5gFalNLWB0G4UPp-0x956gyJq-Qlxvn0BomxBPA6iuBoCuFZBS8JBPSLo-MA8g==

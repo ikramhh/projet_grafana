@@ -1,0 +1,171 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "projet-cloud-dashboard",
+    "title": "Projet-cloud",
+    "timezone": "browser",
+    "schemaVersion": 36,
+    "version": 1,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "type": "gauge",
+        "title": "CPU Usage",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 60 },
+                { "color": "red", "value": 80 }
+              ]
+            },
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "color": { "mode": "thresholds" }
+          },
+          "overrides": []
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "query": "from(bucket: \"mybucket\") |> range(start: -1m) |> filter(fn: (r) => r._measurement == \"cpu\" and r._field == \"usage\")",
+            "datasource": "influxdb-1"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "timeseries",
+        "title": "Température Capteur",
+        "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "lineWidth": 1,
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "insertNulls": false,
+              "showPoints": "auto",
+              "showValues": false,
+              "pointSize": 5,
+              "stacking": { "mode": "none", "group": "A" },
+              "axisPlacement": "auto",
+              "axisLabel": "",
+              "axisColorMode": "text",
+              "axisBorderShow": false,
+              "scaleDistribution": { "type": "linear" },
+              "axisCenteredZero": false,
+              "hideFrom": { "tooltip": false, "viz": false, "legend": false },
+              "thresholdsStyle": { "mode": "off" }
+            },
+            "color": { "mode": "palette-classic" },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": null, "color": "green" },
+                { "value": 28, "color": "yellow" },
+                { "value": 32, "color": "red" }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "query": "from(bucket: \"mybucket\") |> range(start: -10m) |> filter(fn: (r) => r._measurement == \"temperature\" and r._field == \"value\")",
+            "datasource": "influxdb-1"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Taux d'erreur",
+        "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": null, "color": "green" },
+                { "value": 3, "color": "red" }
+              ]
+            },
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "color": { "mode": "thresholds" }
+          },
+          "overrides": []
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "query": "from(bucket: \"mybucket\") |> range(start: -5m) |> filter(fn: (r) => r._measurement == \"error_rate\" and r._field == \"value\")",
+            "datasource": "influxdb-1"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "type": "timeseries",
+        "title": "Métrique Simulée",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "lineWidth": 1,
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "insertNulls": false,
+              "showPoints": "auto",
+              "showValues": false,
+              "pointSize": 5,
+              "stacking": { "mode": "none", "group": "A" },
+              "axisPlacement": "auto",
+              "axisLabel": "",
+              "axisColorMode": "text",
+              "axisBorderShow": false,
+              "scaleDistribution": { "type": "linear" },
+              "axisCenteredZero": false,
+              "hideFrom": { "tooltip": false, "viz": false, "legend": false },
+              "thresholdsStyle": { "mode": "off" }
+            },
+            "color": { "mode": "palette-classic" },
+            "mappings": [],
+            "thresholds": { "mode": "off", "steps": [] }
+          },
+          "overrides": []
+        },
+        "targets": [
+          {
+            "refId": "D",
+            "query": "from(bucket: \"mybucket\") |> range(start: -10m) |> filter(fn: (r) => r._measurement == \"metric\" and r._field == \"value\")",
+            "datasource": "influxdb-1"
+          }
+        ]
+      }
+    ]
+  },
+  "overwrite": true
+}
+
